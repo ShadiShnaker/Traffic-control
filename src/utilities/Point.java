@@ -7,85 +7,117 @@ import java.util.Objects;
  * Class Point
  */
 public abstract class Point implements Utilities {
-    /* Fields */
+    private double x;
+    private double y;
     private final int minVal = 0;
-    private final int maxX = 800;
-    private final int maxY = 600;
-    private int x;
-    private int y;
+    private final int maxX=800;
+    private final int maxY=600;
 
-    /* Constructors */
-    public Point(int x, int y){
-        setX(x);
-        setY(y);
-        successMessage(toString());
+    public Point(double xVal, double yVal) {
+
+        if (checkValue(xVal, minVal, maxX)) {
+            x=xVal;
+        }
+
+        else {
+            x=getRandomDouble(minVal, maxX);
+            correctingMessage(xVal,x,"X");
+        }
+
+        if (checkValue(yVal, minVal, maxY)) {
+            y=yVal;
+        }
+        else {
+            y=getRandomDouble(minVal, maxY);
+            correctingMessage(yVal,y,"Y");
+        }
+
+
+
+
     }
 
-    public Point(){
-        this.x = getRandomInt(minVal, maxX);
-        this.y = getRandomInt(minVal, maxY);
+    public Point() {
+        x=getRandomDouble(minVal, maxX);
+        y=getRandomDouble(minVal, maxY);
+
     }
 
-    /* Setters and getters */
-    public int getX() {
+    public double getX() {
         return x;
     }
 
-    /***
-     * set x if the token in the range else set x as a random int
-     * @param x
-     */
-    public void setX(int x) {
-        if(checkValue(x, minVal, maxX))
-            this.x = x;
-        else{
-            errorMessage(x,"x");
-            this.x = getRandomInt(minVal, maxX);
-            correctingMessage(x, this.x, "x");
-        }
-    }
-
-    public int getY() {
+    public double getY() {
         return y;
     }
 
-    /***
-     * set y equals to the token if the token in the range else set it as a random int
-     * @param y
-     */
-    public void setY(int y) {
-        if(checkValue(y, minVal, maxY))
-            this.y = y;
-        else{
-            errorMessage(y, "y");
-            this.y = getRandomInt(minVal, maxY);
-            correctingMessage(y, this.y, "y");
+    public boolean setX(double xVal) {
+
+        if (checkValue(xVal,minVal, maxX)) {
+            x=xVal;
+            return true;
+        }
+
+        else {
+            errorMessage(xVal, "X");
+            System.out.println();
+            return false;
+
         }
     }
-    /* Methods */
 
-    /***
-     * abstract method
-     * @param other
-     * @return the distance between tow points
-     */
-    public abstract double calcDistance(Point other);
+    public boolean setY(double yVal) {
 
-    /* toString & equals() methods */
+        if (checkValue(yVal,minVal,maxY)) {
+            y=yVal;
+            return true;
+        }
 
-    @Override
+        else {
+            errorMessage(yVal, "Y");
+            System.out.println();
+            return false;
+        }
+    }
+
+
     public String toString() {
-        return "Point{" +
-                "x=" + x +
-                ", y=" + y +
-                '}';
+
+        return new String("Point (" + x + " , " + y + ")");
+
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Point)) return false;
-        Point point = (Point) o;
-        return getX() == point.getX() && getY() == point.getY();
+    public boolean equals(Point other) {
+        if (this.x==other.x && this.y==other.y) {
+            return true;
+        }
+        else return false;
     }
+
+    public double calcDistance(Point other){
+        return Math.sqrt(Math.pow(other.getX()-this.getX(),2)+Math.pow(other.getY()-this.getY(),2));
+    }
+
+    /**
+     * @return the minVal
+     */
+    public int getMinVal() {
+        return minVal;
+    }
+
+    /**
+     * @return the maxX
+     */
+    public int getMaxX() {
+        return maxX;
+    }
+
+    /**
+     * @return the maxY
+     */
+    public int getMaxY() {
+        return maxY;
+    }
+
+
 }
